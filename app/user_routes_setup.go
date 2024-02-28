@@ -7,23 +7,26 @@ import (
 )
 
 
-func (s *Server) setupUserRoutes(apiRoutes *gin.RouterGroup) {
-	userRoutes := apiRoutes.Group("/users")
+func (s *Server) setupUserRoutes(rg *gin.RouterGroup) {
+	userRoutes := rg.Group("/users")
 	{
-		userRoutes.GET("/", func(ctx *gin.Context) {
-			ctx.JSON(200, gin.H{
-				"message": "users get enpoint",
-			})
-		})
-		userRoutes.GET("/:id", func(ctx *gin.Context) {
-			id := ctx.Param("id")
-
-			ctx.JSON(200, gin.H{
-				"message": fmt.Sprintf("user with id %s", id),
-			})
-		})
+		userRoutes.GET("/", listUsers)
+		userRoutes.GET("/:id", getUser)
 		userRoutes.POST("/", nil)
 		userRoutes.PUT("/:id", nil)
 		userRoutes.DELETE("/:id", nil)
 	}
+}
+
+func listUsers(ctx *gin.Context) {
+	ctx.JSON(200, gin.H{
+		"message": "users get enpoint",
+	})
+}
+
+func getUser(ctx *gin.Context) {
+	id := ctx.Param("id")
+	ctx.JSON(200, gin.H{
+		"message": fmt.Sprintf("user with id %s", id),
+	})
 }

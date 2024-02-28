@@ -4,8 +4,8 @@ import (
 	"log"
 
 	"github.com/1BarCode/go-bank-v1/app"
-	"github.com/1BarCode/go-bank-v1/app/services"
 	"github.com/1BarCode/go-bank-v1/db"
+	"github.com/1BarCode/go-bank-v1/services"
 )
 
 
@@ -14,7 +14,7 @@ func main() {
 
 	// connect to db
 
-	// create store
+	// create store with db connection
 	store := db.NewStore()
 
 	// create services
