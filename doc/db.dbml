@@ -1,0 +1,46 @@
+Project go_bank_v1 {
+    database_type: "PostgreSQL"
+    Note: '''
+    # Simple Go Bank Application
+    ## This is a simple bank application that allows users to create accounts, deposit and withdraw money, and transfer money between accounts.'''
+}
+
+Table account as A {
+    id uuid [pk]
+    owner varchar [not null]
+    balance bigint [not null]
+    currency varchar [not null]
+    created_at timestampz [not null, default: `now()`]
+    updated_at timestampz [not null, default: `now()`, note: 'manually add timestamp on update']
+
+    Indexes {
+        (owner)
+    }
+}
+
+Table entry {
+    id uuid [pk]
+    account_id uuid [ref: > A.id]
+    amount bigint [not null, note: 'can be negative or positive']
+    created_at timestampz [not null, default: `now()`]
+    updated_at timestampz [not null, default: `now()`, note: 'manually add timestamp on update']
+
+    Indexes {
+        (account_id)
+    }
+}
+
+Table transfer {
+    id uuid [pk]
+    from_account_id uuid [ref: > A.id]
+    to_account_id uuid [ref: > A.id]
+    amount bigint [not null, note: 'MUST be positive']
+    created_at timestampz [not null, default: `now()`]
+    updated_at timestampz [not null, default: `now()`, note: 'manually add timestamp on update']
+
+    Indexes {
+        (from_account_id)
+        (to_account_id)
+        (from_account_id, to_account_id)
+    }
+}
