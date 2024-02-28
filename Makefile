@@ -1,6 +1,12 @@
 # start the postgres container
-postgres:
+postgresinit:
 	docker run --name postgres12 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=admin123 -d postgres:12-alpine
+
+postgresup:
+	docker start postgres12
+
+postgresstop:
+	docker stop postgres12
 
 # create the database named go_bank_v1 - then connect to the database (not root db)
 createdb:
@@ -24,6 +30,8 @@ db_docs:
 db_schema:
 	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
 
+sqlc:
+	sqlc generate
 
 migratedown:
-.PHONY: postgres createdb dropdb migrateup db_docs db_schema
+.PHONY: postgresinit postgresup postgresstop createdb dropdb migrateup db_docs db_schema sqlc
