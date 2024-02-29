@@ -6,7 +6,7 @@ Project go_bank_v1 {
 }
 
 Table account as A {
-    id uuid [pk]
+    id uuid [pk, default: `uuid_generate_v4()`]
     owner varchar [not null]
     balance bigint [not null]
     currency varchar [not null]
@@ -19,7 +19,7 @@ Table account as A {
 }
 
 Table entry {
-    id uuid [pk]
+    id uuid [pk, default: `uuid_generate_v4()`]
     account_id uuid [ref: > A.id, not null]
     amount bigint [not null, note: 'can be negative or positive']
     created_at timestamptz [not null, default: `now()`]
@@ -31,7 +31,7 @@ Table entry {
 }
 
 Table transfer {
-    id uuid [pk]
+    id uuid [pk, default: `uuid_generate_v4()`]
     from_account_id uuid [ref: > A.id, not null]
     to_account_id uuid [ref: > A.id, not null]
     amount bigint [not null, note: 'MUST be positive']
