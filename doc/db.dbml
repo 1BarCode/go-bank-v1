@@ -6,12 +6,12 @@ Project go_bank_v1 {
 }
 
 Table account as A {
-    id uuid [pk]
+    id uuid [pk, default: `uuid_generate_v4()`]
     owner varchar [not null]
     balance bigint [not null]
     currency varchar [not null]
-    created_at timestampz [not null, default: `now()`]
-    updated_at timestampz [not null, default: `now()`, note: 'manually add timestamp on update']
+    created_at timestamptz [not null, default: `now()`]
+    updated_at timestamptz [not null, default: `now()`]
 
     Indexes {
         (owner)
@@ -19,11 +19,11 @@ Table account as A {
 }
 
 Table entry {
-    id uuid [pk]
-    account_id uuid [ref: > A.id]
+    id uuid [pk, default: `uuid_generate_v4()`]
+    account_id uuid [ref: > A.id, not null]
     amount bigint [not null, note: 'can be negative or positive']
-    created_at timestampz [not null, default: `now()`]
-    updated_at timestampz [not null, default: `now()`, note: 'manually add timestamp on update']
+    created_at timestamptz [not null, default: `now()`]
+    updated_at timestamptz [not null, default: `now()`]
 
     Indexes {
         (account_id)
@@ -31,12 +31,12 @@ Table entry {
 }
 
 Table transfer {
-    id uuid [pk]
-    from_account_id uuid [ref: > A.id]
-    to_account_id uuid [ref: > A.id]
+    id uuid [pk, default: `uuid_generate_v4()`]
+    from_account_id uuid [ref: > A.id, not null]
+    to_account_id uuid [ref: > A.id, not null]
     amount bigint [not null, note: 'MUST be positive']
-    created_at timestampz [not null, default: `now()`]
-    updated_at timestampz [not null, default: `now()`, note: 'manually add timestamp on update']
+    created_at timestamptz [not null, default: `now()`]
+    updated_at timestamptz [not null, default: `now()`]
 
     Indexes {
         (from_account_id)

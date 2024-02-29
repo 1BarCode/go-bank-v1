@@ -1,9 +1,9 @@
 -- SQL dump generated using DBML (dbml-lang.org)
 -- Database: PostgreSQL
--- Generated at: 2024-02-28T23:42:35.530Z
+-- Generated at: 2024-02-28T11:47:59.564Z
 
 CREATE TABLE "account" (
-  "id" uuid PRIMARY KEY DEFAULT (uuid_generate_v4()),
+  "id" uuid PRIMARY KEY,
   "owner" varchar NOT NULL,
   "balance" bigint NOT NULL,
   "currency" varchar NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE "account" (
 );
 
 CREATE TABLE "entry" (
-  "id" uuid PRIMARY KEY DEFAULT (uuid_generate_v4()),
+  "id" uuid PRIMARY KEY,
   "account_id" uuid NOT NULL,
   "amount" bigint NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
@@ -20,7 +20,7 @@ CREATE TABLE "entry" (
 );
 
 CREATE TABLE "transfer" (
-  "id" uuid PRIMARY KEY DEFAULT (uuid_generate_v4()),
+  "id" uuid PRIMARY KEY,
   "from_account_id" uuid NOT NULL,
   "to_account_id" uuid NOT NULL,
   "amount" bigint NOT NULL,
