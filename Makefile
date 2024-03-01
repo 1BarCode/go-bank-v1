@@ -2,7 +2,7 @@
 postgresinit:
 	docker run --name postgres12 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=admin123 -d postgres:12-alpine
 
-postgresup:
+postgresstart:
 	docker start postgres12
 
 postgresstop:
@@ -51,4 +51,8 @@ test:
 server:
 	go run main.go
 
-.PHONY: postgresinit postgresup postgresstop createdb dropdb migrateup migrateup1 migratedown migratedown1 db_docs db_schema sqlc server
+# generate the mock store for the db
+mock:
+	mockgen -package mockdb -destination db/mock/store.go github.com/1BarCode/go-bank-v1/db/sqlc Store	
+
+.PHONY: postgresinit postgresstart postgresstop createdb dropdb migrateup migrateup1 migratedown migratedown1 db_docs db_schema sqlc server

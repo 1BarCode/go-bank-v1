@@ -31,7 +31,6 @@ This is a simple bank application that allows users to create an account, deposi
 
 ## Usage
 
-- Gin server is running on port 8080. Start the server by running `run go main.go` in the root directory of the project.
 - The database is running on port 5432 in the docker container.
 
      - If connecting to the DB for the first time:
@@ -40,9 +39,13 @@ This is a simple bank application that allows users to create an account, deposi
           3. Connect to the DB with TablePlus or any other DB client.
           4. Run `make migrateup` to run the migrations.
      - For subsequent connections:
-          1. Run `make postgresup` to start the database container.
+          1. Run `make postgresstart` to start the database container.
+          2. To stop the database container, run `make postgresstop`.
+
+- Gin server is running on port 8080. Start the server by running `make server` in the root directory of the project. Make sure the database is running before starting the server.
 
 - SQLC is used to generate idiomatic Go code for working with the database based on the pre-defined SQL queries we've written in the `db/query` folder.
+
      - SQLC looks at the `sqlc.yaml` file in the root directory to generate the code.
      - To add new/update SQL queries:
           1. Write the queries in the `db/query` folder.
@@ -52,4 +55,6 @@ This is a simple bank application that allows users to create an account, deposi
                 - `db.go` contains the Queries struct for using with a sql.DB object or with a sql.Tx object for transactions.
                 - The Go code ends with `.sql.go`.
           4. Make sure to create the corresponding `<table>_test.go` file in the `db/sqlc` directory to test the generated code.
-                1.
+
+- Mockgen is used to generate a mock db for testing.
+     1. To generate the mock db, run `make mock` in the root directory of the project.

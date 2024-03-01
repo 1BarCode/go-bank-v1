@@ -15,9 +15,9 @@ type Services interface {
 }
 
 type services struct {
-	store *db.Store
+	store db.Store
 }
 
-func NewServices(store *db.Store) Services {
+func NewServices(store db.Store) Services {
 	return &services{store: store}
 }

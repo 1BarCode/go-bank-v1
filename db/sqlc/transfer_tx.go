@@ -24,7 +24,7 @@ type TransferTxResult struct {
 
 // TransferTx performs a money transfer from one account to the other
 // create transfer record, add account entries, update both accounts balance within single transaction
-func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
+func (store *SQLStore) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
 	var result TransferTxResult
 
 	// TODO: rewrite execTx to be a generic function to return any type of result so we can get rid of the closure

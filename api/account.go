@@ -61,8 +61,8 @@ func (s *Server) getAccount(ctx *gin.Context) {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
 			return
 		}
-
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		// TODO: log real error
+		ctx.JSON(http.StatusInternalServerError, intServerErrorResponse()) 
 		return
 	}
 
@@ -88,7 +88,8 @@ func (s *Server) listAccounts(ctx *gin.Context) {
 
 	accounts, err := s.services.ListAccounts(ctx, arg)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		// TODO: log real error
+		ctx.JSON(http.StatusInternalServerError, intServerErrorResponse())
 		return
 	}
 

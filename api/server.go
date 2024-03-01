@@ -82,6 +82,10 @@ func errorResponse(err error) gin.H {
 	return gin.H{"error": err.Error()}
 }
 
+func intServerErrorResponse() gin.H {
+	return gin.H{"error": "internal server error"}
+}
+
 type UuidRequest struct {
 	ID uuid.UUID
 }
