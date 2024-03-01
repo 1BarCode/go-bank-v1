@@ -1,4 +1,4 @@
-package app
+package api
 
 import (
 	"fmt"
@@ -10,11 +10,11 @@ import (
 func (s *Server) setupUserRoutes(rg *gin.RouterGroup) {
 	userRoutes := rg.Group("/users")
 	{
-		userRoutes.GET("/", listUsers)
-		userRoutes.GET("/:id", getUser)
-		userRoutes.POST("/", nil)
-		userRoutes.PUT("/:id", nil)
-		userRoutes.DELETE("/:id", nil)
+		userRoutes.GET("", listUsers)
+		userRoutes.GET(":id", getUser)
+		userRoutes.POST("", nil)
+		userRoutes.PUT(":id", nil)
+		userRoutes.DELETE(":id", nil)
 	}
 }
 

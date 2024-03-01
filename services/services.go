@@ -3,17 +3,21 @@ package services
 import (
 	"context"
 
-	"github.com/1BarCode/go-bank-v1/db"
+	db "github.com/1BarCode/go-bank-v1/db/sqlc"
+	"github.com/google/uuid"
 )
 
 type Services interface {
-	CreateUser(ctx context.Context, username string) (db.User, error)
+	CreateAccount(ctx context.Context, arg db.CreateAccountParams) (db.Account, error)
+	GetAccount(ctx context.Context, id uuid.UUID) (db.Account, error)
+	ListAccounts(ctx context.Context, arg db.ListAccountsParams) ([]db.Account, error)
+	DeleteAccount(ctx context.Context, id uuid.UUID) error
 }
 
 type services struct {
-	// store db.Store
+	store *db.Store
 }
 
-// func NewServices(store db.Store) Services {
-// 	return &services{store: store}
-// }
+func NewServices(store *db.Store) Services {
+	return &services{store: store}
+}

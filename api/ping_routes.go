@@ -1,4 +1,4 @@
-package app
+package api
 
 import (
 	"github.com/gin-gonic/gin"
@@ -7,7 +7,7 @@ import (
 func (s *Server) setupPingRoutes(rg *gin.RouterGroup) {
 	pingRoutes := rg.Group("/ping")
 	{
-		pingRoutes.GET("/", func(ctx *gin.Context) {
+		pingRoutes.GET("", func(ctx *gin.Context) {
 			ctx.JSON(200, gin.H{
 				"message": "pong",
 			})

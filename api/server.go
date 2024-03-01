@@ -1,4 +1,4 @@
-package app
+package api
 
 import (
 	"fmt"
@@ -6,6 +6,7 @@ import (
 
 	"github.com/1BarCode/go-bank-v1/services"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type Server struct {
@@ -13,6 +14,7 @@ type Server struct {
 	router *gin.Engine
 }
 
+// NewServer creates a new server with all the necessary routes
 func NewServer(s services.Services) *Server {
 	server := &Server{services: s}
 	router := gin.Default()
@@ -23,6 +25,7 @@ func NewServer(s services.Services) *Server {
 	return server
 }
 
+// Start runs the server on a specific address
 func (s *Server) Start(address string) error {
 	return s.router.Run(address)
 }
@@ -32,6 +35,9 @@ func (s *Server) setUpRoutes() {
 	{
 		// ping routes
 		s.setupPingRoutes(v1Routes)
+
+		// account routes
+		s.setupAccountRoutes(v1Routes)
 
 		// user routes
 		s.setupUserRoutes(v1Routes)
@@ -72,3 +78,10 @@ func task2(delay int) {
 	time.Sleep(time.Duration(delay) * time.Second)
 }
 
+func errorResponse(err error) gin.H {
+	return gin.H{"error": err.Error()}
+}
+
+type UuidRequest struct {
+	ID uuid.UUID
+}
