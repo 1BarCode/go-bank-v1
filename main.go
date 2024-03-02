@@ -30,10 +30,10 @@ func main() {
 	// create store with db connection
 	store := db.NewStore(dbConn)
 
-	// // create services
+	// create services
 	services := services.NewServices(store)
 
-	// // create server
+	// create server
 	server := api.NewServer(services)
 
 	// start server

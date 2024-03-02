@@ -114,6 +114,17 @@ func (s *Server) deleteAccount(ctx *gin.Context) {
 	}
 
 	reqDTO := UuidRequest{ID: id}
+	// check if account exists
+	_, err = s.services.GetAccount(ctx, reqDTO.ID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			return
+		}
+
+		ctx.JSON(http.StatusInternalServerError, intServerErrorResponse())
+		return
+	}
 
 	err = s.services.DeleteAccount(ctx, reqDTO.ID)
 	if err != nil {

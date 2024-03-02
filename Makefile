@@ -33,7 +33,7 @@ migratedown:
 migratedown1:
 	migrate -path db/migration -database "postgresql://root:admin123@localhost:5432/go_bank_v1?sslmode=disable" -verbose down 1
 
-# generate the db docs
+# generate the db docs - there will be a link to the db docs in the terminal
 db_docs:
 	dbdocs build doc/db.dbml
 
