@@ -53,9 +53,7 @@ func (s *Server) getAccount(ctx *gin.Context) {
 		return
 	}
 
-	reqDTO := UuidRequest{ID: id}
-
-	account, err := s.services.GetAccount(ctx, reqDTO.ID)
+	account, err := s.services.GetAccount(ctx, id)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
@@ -113,9 +111,8 @@ func (s *Server) deleteAccount(ctx *gin.Context) {
 		return
 	}
 
-	reqDTO := UuidRequest{ID: id}
 	// check if account exists
-	_, err = s.services.GetAccount(ctx, reqDTO.ID)
+	_, err = s.services.GetAccount(ctx, id)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
@@ -126,7 +123,7 @@ func (s *Server) deleteAccount(ctx *gin.Context) {
 		return
 	}
 
-	err = s.services.DeleteAccount(ctx, reqDTO.ID)
+	err = s.services.DeleteAccount(ctx, id)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return

@@ -7,11 +7,16 @@ import (
 	"github.com/google/uuid"
 )
 
-type Services interface {
+type account interface {
 	CreateAccount(ctx context.Context, arg db.CreateAccountParams) (db.Account, error)
 	GetAccount(ctx context.Context, id uuid.UUID) (db.Account, error)
 	ListAccounts(ctx context.Context, arg db.ListAccountsParams) ([]db.Account, error)
 	DeleteAccount(ctx context.Context, id uuid.UUID) error
+}
+
+
+type Services interface {
+	account
 }
 
 type services struct {

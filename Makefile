@@ -51,7 +51,7 @@ test:
 server:
 	go run main.go
 
-# generate the mock store for the db
+# generate a mock for the Store interface and save it in the db/mock folder
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/1BarCode/go-bank-v1/db/sqlc Store	
 

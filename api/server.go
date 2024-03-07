@@ -6,7 +6,6 @@ import (
 
 	"github.com/1BarCode/go-bank-v1/services"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type Server struct {
@@ -68,11 +67,10 @@ func doConcurrentStuff(ctx *gin.Context) {
 	})
 }
 
-func task1(ch chan string, delay int) {
-	time.Sleep(time.Duration(delay) * time.Second)
-
-	ch <- fmt.Sprintf("task %d done", delay)
-}
+// func task1(ch chan string, delay int) {
+// 	time.Sleep(time.Duration(delay) * time.Second)
+// 	ch <- fmt.Sprintf("task %d done", delay)
+// }
 
 func task2(delay int) {
 	time.Sleep(time.Duration(delay) * time.Second)
@@ -84,8 +82,4 @@ func errorResponse(err error) gin.H {
 
 func intServerErrorResponse() gin.H {
 	return gin.H{"error": "internal server error"}
-}
-
-type UuidRequest struct {
-	ID uuid.UUID
 }
