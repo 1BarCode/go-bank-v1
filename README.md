@@ -56,5 +56,5 @@ This is a simple bank application that allows users to create an account, deposi
                 - The Go code ends with `.sql.go`.
           4. Make sure to create the corresponding `<table>_test.go` file in the `db/sqlc` directory to test the generated code.
 
-- Mockgen is used to generate a mock db for testing.
+- Mockgen is used to generate a mock db for testing the server layer.
      1. To generate the mock db, run `make mock` in the root directory of the project.

@@ -1,11 +1,11 @@
 # start the postgres container
-postgresinit:
+pginit:
 	docker run --name postgres12 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=admin123 -d postgres:12-alpine
 
-postgresstart:
+pgstart:
 	docker start postgres12
 
-postgresstop:
+pgstop:
 	docker stop postgres12
 
 # create the database named go_bank_v1 - then connect to the database (not root db)
@@ -52,7 +52,10 @@ server:
 	go run main.go
 
 # generate a mock for the Store interface and save it in the db/mock folder
-mock:
-	mockgen -package mockdb -destination db/mock/store.go github.com/1BarCode/go-bank-v1/db/sqlc Store	
+mockdb:
+	mockgen -package mockdb -destination db/mock/store.go github.com/1BarCode/go-bank-v1/db/sqlc Store
 
-.PHONY: postgresinit postgresstart postgresstop createdb dropdb migrateup migrateup1 migratedown migratedown1 db_docs db_schema sqlc server
+mockservice:
+	mockgen -package mockservices -destination services/mock/services.go github.com/1BarCode/go-bank-v1/services Services
+
+.PHONY: pginit pgstart pgstop createdb dropdb migrateup migrateup1 migratedown migratedown1 db_docs db_schema sqlc server mockdb mockservice
