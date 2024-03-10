@@ -9,6 +9,7 @@ import (
 	reflect "reflect"
 
 	db "github.com/1BarCode/go-bank-v1/db/sqlc"
+	services "github.com/1BarCode/go-bank-v1/services"
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
 )
@@ -93,4 +94,19 @@ func (m *MockServices) ListAccounts(arg0 context.Context, arg1 db.ListAccountsPa
 func (mr *MockServicesMockRecorder) ListAccounts(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAccounts", reflect.TypeOf((*MockServices)(nil).ListAccounts), arg0, arg1)
+}
+
+// TransferTx mocks base method.
+func (m *MockServices) TransferTx(arg0 context.Context, arg1 services.TransferTxParams) (services.TransferTxResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "TransferTx", arg0, arg1)
+	ret0, _ := ret[0].(services.TransferTxResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// TransferTx indicates an expected call of TransferTx.
+func (mr *MockServicesMockRecorder) TransferTx(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TransferTx", reflect.TypeOf((*MockServices)(nil).TransferTx), arg0, arg1)
 }

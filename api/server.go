@@ -6,6 +6,8 @@ import (
 
 	"github.com/1BarCode/go-bank-v1/services"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 )
 
 type Server struct {
@@ -18,6 +20,10 @@ func NewServer(s services.Services) *Server {
 	server := &Server{services: s}
 	router := gin.Default()
 	server.router = router
+
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterValidation("currency", validCurrency)
+	}
 
 	server.setUpRoutes()
 	
@@ -38,10 +44,42 @@ func (s *Server) setUpRoutes() {
 		// account routes
 		s.setupAccountRoutes(v1Routes)
 
+		// transfer route
+		s.setupTransferRoutes(v1Routes)
+
 		// user routes
-		s.setupUserRoutes(v1Routes)
+		// s.setupUserRoutes(v1Routes)
 
 		v1Routes.GET("/concurrent", doConcurrentStuff)
+	}
+}
+
+func (s *Server) setupPingRoutes(rg *gin.RouterGroup) {
+	pingRoutes := rg.Group("/ping")
+	{
+		pingRoutes.GET("", func(ctx *gin.Context) {
+			ctx.JSON(200, gin.H{
+				"message": "pong",
+			})
+		})
+	}
+}
+
+func (s *Server) setupAccountRoutes(rg *gin.RouterGroup) {
+	accountRoutes := rg.Group("/accounts")
+	{
+		accountRoutes.POST("", s.createAccount)
+		accountRoutes.GET(":id", s.getAccount)
+		accountRoutes.GET("", s.listAccounts)
+		// accountRoutes.PUT(":id", nil)
+		accountRoutes.DELETE(":id", s.deleteAccount)
+	}
+}
+
+func (s *Server) setupTransferRoutes(rg *gin.RouterGroup) {
+	transferRoutes := rg.Group("/transfers")
+	{
+		transferRoutes.POST("", s.createTransfer)
 	}
 }
 
