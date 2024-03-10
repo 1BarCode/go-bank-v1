@@ -47,11 +47,8 @@ func (s *Server) getAccount(ctx *gin.Context) {
 		return
 	}
 
-	id, err := uuid.Parse(req.ID)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
-		return
-	}
+	// ignore error because it's already validated by ShouldBindUri
+	id, _ := uuid.Parse(req.ID)
 
 	account, err := s.services.GetAccount(ctx, id)
 	if err != nil {

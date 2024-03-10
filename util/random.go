@@ -3,6 +3,8 @@ package util
 import (
 	"math/rand"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 // this function will run when the package is imported to make sure the random number generator gives different numbers each time
@@ -43,4 +45,8 @@ func RandomCurrency() string {
 	currencies := []string{"USD", "EUR", "CAD"}
 	n := len(currencies)
 	return currencies[rand.Intn(n)]
+}
+
+func RandomUuid() uuid.UUID {
+	return uuid.New()
 }
