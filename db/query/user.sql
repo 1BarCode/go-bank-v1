@@ -1,5 +1,5 @@
 -- name: CreateUser :one
-INSERT INTO user (
+INSERT INTO "user" (
     username,
     email,
     hashed_password,
@@ -10,5 +10,5 @@ INSERT INTO user (
 ) RETURNING *;
 
 -- name: GetUser :one
-SELECT * FROM user
+SELECT * FROM "user"
 WHERE username = $1 LIMIT 1;
