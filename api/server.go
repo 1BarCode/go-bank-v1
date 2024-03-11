@@ -40,15 +40,15 @@ func (s *Server) setUpRoutes() {
 	{
 		// ping routes
 		s.setupPingRoutes(v1Routes)
+		
+		// user routes
+		s.setupUserRoutes(v1Routes)
 
 		// account routes
 		s.setupAccountRoutes(v1Routes)
 
 		// transfer route
 		s.setupTransferRoutes(v1Routes)
-
-		// user routes
-		// s.setupUserRoutes(v1Routes)
 
 		v1Routes.GET("/concurrent", doConcurrentStuff)
 	}
@@ -62,6 +62,13 @@ func (s *Server) setupPingRoutes(rg *gin.RouterGroup) {
 				"message": "pong",
 			})
 		})
+	}
+}
+
+func (s *Server) setupUserRoutes(rg *gin.RouterGroup) {
+	userRoutes := rg.Group("/users")
+	{
+		userRoutes.POST("", s.createUser)
 	}
 }
 

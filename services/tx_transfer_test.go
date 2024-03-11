@@ -242,8 +242,10 @@ func TestTransferTxDeadlock(t *testing.T) {
 
 // Note function does not start with "Test" so it will not be run by "go test" as a unit test
 func createRandomAccount(t *testing.T) db.Account {
+	user := createRandomUser(t)
+
 	arg := db.CreateAccountParams{
-		Owner:    util.RandomOwner(),
+		Owner:    user.Username,
 		Balance:  util.RandomMoney(),
 		Currency: util.RandomCurrency(),
 	}
@@ -261,4 +263,30 @@ func createRandomAccount(t *testing.T) db.Account {
 	require.NotZero(t, account.UpdatedAt)
 
 	return account
+}
+
+func createRandomUser(t *testing.T) db.User {
+	arg := db.CreateUserParams{
+		Username: util.RandomOwner(),
+		Email:   util.RandomEmail(),
+		HashedPassword: "password",
+		FirstName: util.RandomOwner(),
+		LastName: util.RandomOwner(),
+	}
+
+	user, err := testQueries.CreateUser(context.Background(), arg)
+	require.NoError(t, err)
+	require.NotEmpty(t, user)
+
+	require.Equal(t, arg.Username, user.Username)
+	require.Equal(t, arg.Email, user.Email)
+	require.Equal(t, arg.HashedPassword, user.HashedPassword)
+	require.Equal(t, arg.FirstName, user.FirstName)
+	require.Equal(t, arg.LastName, user.LastName)
+
+	require.True(t, user.PasswordChangedAt.IsZero())
+	require.NotZero(t, user.CreatedAt)
+	require.NotZero(t, user.UpdatedAt)
+
+	return user
 }

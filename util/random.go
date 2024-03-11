@@ -50,3 +50,7 @@ func RandomCurrency() string {
 func RandomUuid() uuid.UUID {
 	return uuid.New()
 }
+
+func RandomEmail() string {
+	return RandomString(6) + "@email.com"
+}

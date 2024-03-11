@@ -34,19 +34,19 @@ This is a simple bank application that allows users to create an account, deposi
 - The database is running on port 5432 in the docker container.
 
      - If connecting to the DB for the first time:
-          1. Run `make postgresinit` to initialize the docker database container.
+          1. Run `make pgstart` to initialize the docker database container.
           2. Run `make createdb` to create the database.
           3. Connect to the DB with TablePlus or any other DB client.
           4. Run `make migrateup` to run the migrations.
      - For subsequent connections:
           1. Run `make postgresstart` to start the database container.
-          2. To stop the database container, run `make postgresstop`.
+          2. To stop the database container, run `make pgstop`.
 
 - Gin server is running on port 8080. Start the server by running `make server` in the root directory of the project. Make sure the database is running before starting the server.
 
 - SQLC is used to generate idiomatic Go code for working with the database based on the pre-defined SQL queries we've written in the `db/query` folder.
 
-     - SQLC looks at the `sqlc.yaml` file in the root directory to generate the code.
+     - SQLC looks at the `sqlc.yaml` file in the root directory to configure and generate the code.
      - To add new/update SQL queries:
           1. Write the queries in the `db/query` folder.
           2. To generate the SQLC code, run `make sqlc` in the root directory of the project.
@@ -56,6 +56,6 @@ This is a simple bank application that allows users to create an account, deposi
                 - The Go code ends with `.sql.go`.
           4. Make sure to create the corresponding `<table>_test.go` file in the `db/sqlc` directory to test the generated code.
 
-- Mockgen is used to generate a mock db and mock services for testing the 2 layers.
+- Gomock / Mockgen is used to generate a mock db and mock services for testing the 2 layers.
      1. To generate the mock db, run `make mockdb` in the root directory of the project.
      2. To generate the mock services, run `make mockservice` in the root directory of the project.

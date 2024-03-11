@@ -19,10 +19,15 @@ type transfer interface {
 	TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error)
 }
 
+type user interface {
+	CreateUser(ctx context.Context, arg db.CreateUserParams) (db.User, error)
+}
+
 
 type Services interface {
 	account
 	transfer
+	user
 }
 
 type services struct {
